@@ -1,0 +1,78 @@
+cc_library_static {
+    name: "android.hardware.health@1.0-convert",
+    vendor_available: true,
+    recovery_available: true,
+    srcs: ["convert.cpp"],
+    include_dirs: [
+        "system/core/base/include",
+    ],
+    header_libs: ["libhealthd_headers"],
+    export_header_lib_headers: ["libhealthd_headers"],
+    export_include_dirs: ["include"],
+    shared_libs: [
+        "libcutils",
+        "libhidlbase",
+        "libhidltransport",
+        "libutils",
+        "android.hardware.health@1.0",
+    ],
+
+}
+
+cc_library_shared {
+    name: "android.hardware.health@1.0-impl",
+    proprietary: true,
+    relative_install_path: "hw",
+    include_dirs: ["system/core/base/include"],
+    srcs: ["Health.cpp"],
+
+    header_libs: ["libhealthd_headers"],
+
+    shared_libs: [
+        "libcutils",
+        "libhidlbase",
+        "libhidltransport",
+        "liblog",
+        "libutils",
+        "android.hardware.health@1.0",
+    ],
+
+    // ANDROIDMK TRANSLATION ERROR: unsupported assignment to LOCAL_HAL_STATIC_LIBRARIES
+    // LOCAL_HAL_STATIC_LIBRARIES := libhealthd
+    // TODO: libhealthd.default accepted as well?
+    // -> nope! build/core/make/binary.mk
+    //  # Add static HAL libraries
+    //  ifdef LOCAL_HAL_STATIC_LIBRARIES
+    //  $(foreach lib, $(LOCAL_HAL_STATIC_LIBRARIES), \
+    //      $(eval b_lib := $(filter $(lib).%,$(BOARD_HAL_STATIC_LIBRARIES)))\
+    //      $(if $(b_lib), $(eval my_static_libraries += $(b_lib)),\
+    //                     $(eval my_static_libraries += $(lib).default)))
+    //  b_lib :=
+    //  endif
+    // So use only "libhealthd" instead, and drop libhealthd.default
+    // This means libhealthd.$manufacturer (good riddance...)is no longer supported
+    static_libs: [
+        "libhealthd",
+        "android.hardware.health@1.0-convert",
+    ],
+}
+
+cc_binary {
+    proprietary: true,
+    relative_install_path: "hw",
+    name: "android.hardware.health@1.0-service",
+    init_rc: ["android.hardware.health@1.0-service.rc"],
+    srcs: ["HealthService.cpp"],
+
+    shared_libs: [
+        "liblog",
+        "libcutils",
+        "libdl",
+        "libbase",
+        "libutils",
+        "libhidlbase",
+        "libhidltransport",
+        "android.hardware.health@1.0",
+    ],
+
+}
