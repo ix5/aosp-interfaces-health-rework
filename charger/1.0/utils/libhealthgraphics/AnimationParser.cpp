@@ -19,15 +19,19 @@
 #include <android-base/stringprintf.h>
 #include <android-base/strings.h>
 
-#include <cutils/klog.h>
+//#include <android-base/logging.h>
 
-#include "animation.h"
+#include <cutils/klog.h>
+//#include <log/log.h>
+
+#include "Animation.h"
 
 #define LOGE(x...) do { KLOG_ERROR("charger", x); } while (0)
 #define LOGW(x...) do { KLOG_WARNING("charger", x); } while (0)
 #define LOGV(x...) do { KLOG_DEBUG("charger", x); } while (0)
 
-namespace android {
+// Stop using this namespace and call android::XYZ instead
+//namespace android {
 
 // Lines consisting of only whitespace or whitespace followed by '#' can be ignored.
 bool can_ignore_line(const char* str) {
@@ -138,4 +142,4 @@ bool parse_animation_desc(const std::string& content, animation* anim) {
     return true;
 }
 
-}  // namespace android
+// }  // namespace android

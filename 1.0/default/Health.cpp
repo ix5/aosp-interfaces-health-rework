@@ -19,6 +19,8 @@
 #include <Health.h>
 #include <include/hal_conversion.h>
 
+#include <batterymonitor/BatteryMonitor.h>
+
 namespace android {
 namespace hardware {
 namespace health {
@@ -39,8 +41,9 @@ Return<void> Health::init(const HealthConfig& config, init_cb _hidl_cb)  {
     // convert the new HealthConfig to the old healthd_config
     // and back.
 
-    convertFromHealthConfig(config, &healthd_config);
-    healthd_board_init(&healthd_config);
+    //convertFromHealthConfig(config, &healthd_config);
+    // Get rid of this!
+    //healthd_board_init(&healthd_config);
     mGetEnergyCounter = healthd_config.energyCounter;
     convertToHealthConfig(&healthd_config, configOut);
 
@@ -51,17 +54,18 @@ Return<void> Health::init(const HealthConfig& config, init_cb _hidl_cb)  {
 
 Return<void> Health::update(const HealthInfo& info, update_cb _hidl_cb)  {
     struct android::BatteryProperties p = {};
-    HealthInfo infoOut;
+    //HealthInfo infoOut;
 
     // To keep working with existing healthd static HALs,
     // convert the new HealthInfo to android::Batteryproperties
     // and back.
 
-    convertFromHealthInfo(info, &p);
-    int skipLogging = healthd_board_battery_update(&p);
-    convertToHealthInfo(&p, infoOut);
+    //convertFromHealthInfo(info, &p);
+    //int skipLogging = healthd_board_battery_update(&p);
+    //convertToHealthInfo(&p, infoOut);
 
-    _hidl_cb(!!skipLogging, infoOut);
+    //_hidl_cb(!!skipLogging, infoOut);
+    _hidl_cb(0, info);
 
     return Void();
 }
@@ -70,14 +74,17 @@ Return<void> Health::energyCounter(energyCounter_cb _hidl_cb) {
     int64_t energy = 0;
     Result result = Result::NOT_SUPPORTED;
 
+    // Only charger test sets energy counter
     if (mGetEnergyCounter) {
         int status = mGetEnergyCounter(&energy);
         if (status == 0) {
             result = Result::SUCCESS;
         }
     }
-
-    _hidl_cb(result, energy);
+   // From 2.0:Health.cpp:
+    /* battery_monitor_ = std::make_unique<BatteryMonitor>(); */
+    /* getProperty<int64_t>(battery_monitor_, BATTERY_PROP_ENERGY_COUNTER, 0, _hidl_cb); */
+    /* _hidl_cb(result, energy); */
 
    return Void();
 }

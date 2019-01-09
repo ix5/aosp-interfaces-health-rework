@@ -15,10 +15,14 @@
  */
 
 #include <android-base/stringprintf.h>
-#include <batteryservice/BatteryService.h>
+//#include <android-base/logging.h>
 #include <cutils/klog.h>
+//#include <log/log.h>
 
-#include "healthd_draw.h"
+#include <batteryservice/BatteryService.h>
+
+//#include "draw.h"
+#include "libhealthdraw/draw.h"
 
 #define LOGE(x...) KLOG_ERROR("charger", x);
 #define LOGW(x...) KLOG_WARNING("charger", x);
@@ -215,3 +219,4 @@ void HealthdDraw::draw_unknown(GRSurface* surf_unknown) {
       LOGW("Charging, level unknown\n");
   }
 }
+

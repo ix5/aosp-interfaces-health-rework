@@ -23,8 +23,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <cutils/klog.h>
+//#include <log/log.h>
 
-using namespace android;
+// Be explicit and use android::XYZ stuff instead
+//using namespace android;
 
 // main healthd loop
 extern int healthd_main(void);
@@ -109,3 +111,4 @@ int main(int argc, char** argv) {
     return healthd_charger_main(argc, argv);
 }
 #endif
+

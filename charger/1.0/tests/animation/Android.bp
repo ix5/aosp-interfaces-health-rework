@@ -1,0 +1,18 @@
+// Copyright 2016 The Android Open Source Project
+
+cc_test {
+
+    srcs: ["AnimationParser_test.cpp"],
+
+    name: "healthd_test",
+    tags: ["tests"],
+
+    static_libs: ["libhealthd_internal"],
+
+    shared_libs: [
+        "liblog",
+        "libbase",
+        "libcutils",
+    ],
+}
+

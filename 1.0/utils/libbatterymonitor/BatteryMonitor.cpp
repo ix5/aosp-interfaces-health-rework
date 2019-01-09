@@ -32,11 +32,32 @@
 #include <android-base/parseint.h>
 #include <android-base/strings.h>
 #include <batteryservice/BatteryService.h>
-#include <cutils/klog.h>
+//#include <cutils/klog.h>
+//#include <log/log.h>
+
 #include <cutils/properties.h>
 #include <utils/Errors.h>
 #include <utils/String8.h>
 #include <utils/Vector.h>
+
+#include <android-base/logging.h>
+
+#include <android/hardware/health/1.0/types.h>
+#include <hal_conversion.h>
+#include <health2/Health.h>
+#include <health2/service.h>
+#include <healthd/healthd.h>
+#include <hidl/HidlTransportSupport.h>
+#include <hwbinder/IPCThreadState.h>
+
+using android::hardware::IPCThreadState;
+using android::hardware::configureRpcThreadpool;
+using android::hardware::handleTransportPoll;
+using android::hardware::setupTransportPolling;
+//using android::hardware::health::V2_0::HealthInfo;
+//using android::hardware::health::V1_0::hal_conversion::convertToHealthInfo;
+//using android::hardware::health::V2_0::IHealth;
+//using android::hardware::health::V2_0::implementation::Health;
 
 #define POWER_SUPPLY_SUBSYSTEM "power_supply"
 #define POWER_SUPPLY_SYSFS_PATH "/sys/class/" POWER_SUPPLY_SUBSYSTEM
@@ -45,7 +66,7 @@
 #define MILLION 1.0e6
 #define DEFAULT_VBUS_VOLTAGE 5000000
 
-namespace android {
+//namespace android {
 
 struct sysfsStringEnumMap {
     const char* s;
@@ -60,6 +81,12 @@ static int mapSysfsString(const char* str,
 
     return -1;
 }
+
+namespace android {
+namespace hardware {
+namespace health {
+namespace V1_0 {
+namespace implementation {
 
 static void initBatteryProperties(BatteryProperties* props) {
     props->chargerAcOnline = false;
@@ -199,7 +226,7 @@ int BatteryMonitor::getIntField(const String8& path) {
 }
 
 bool BatteryMonitor::update(void) {
-    bool logthis;
+    //bool logthis;
 
     initBatteryProperties(&props);
 
@@ -290,8 +317,12 @@ bool BatteryMonitor::update(void) {
 
     // TODO: convert this to a HAL cal
     //logthis = !healthd_board_battery_update(&props);
+    // Also, add a logging parameter into the HAL definition
+    bool logthis;
+    logthis = android::hardware::health:v2_1::implementation::LoggingEnabled;
 
-    if (logthis) {
+    //if (logthis) {
+    if (1) {
         char dmesgline[256];
         size_t len;
         if (props.batteryPresent) {

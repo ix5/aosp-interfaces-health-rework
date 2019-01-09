@@ -37,3 +37,4 @@ int healthd_board_battery_update(struct android::BatteryProperties*) {
 int main() {
     return health_service_main();
 }
+

@@ -47,7 +47,9 @@
 #endif
 
 #include "AnimationParser.h"
-#include "healthd_draw.h"
+
+//#include "healthd_draw.h"
+#include "libhealthdraw/draw.h"
 
 #include <health2/Health.h>
 #include <healthd/healthd.h>
@@ -703,3 +705,4 @@ void healthd_mode_charger_init(struct healthd_config* config) {
     healthd_config = config;
     charger->boot_min_cap = config->boot_min_cap;
 }
+

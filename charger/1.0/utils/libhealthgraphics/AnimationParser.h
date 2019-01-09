@@ -29,3 +29,4 @@ bool parse_text_field(const char* in, animation::text_field* field);
 }  // namespace android
 
 #endif // HEALTHD_ANIMATION_PARSER_H
+

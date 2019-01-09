@@ -190,3 +190,4 @@ TEST(AnimationParserTest, Test_parse_animation_desc_full) {
     EXPECT_EQ(50, anim.frames[1].min_level);
     EXPECT_EQ(60, anim.frames[1].max_level);
 }
+

@@ -71,3 +71,4 @@ struct animation {
 }
 
 #endif // HEALTHD_ANIMATION_H
+

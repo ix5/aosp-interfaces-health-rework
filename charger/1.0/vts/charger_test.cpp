@@ -179,3 +179,4 @@ int main(int argc, char** argv) {
 
     exit(status);  // force bgThread to exit
 }
+
