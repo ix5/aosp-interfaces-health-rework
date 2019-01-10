@@ -45,7 +45,8 @@ Return<void> Health::init(const HealthConfig& config, init_cb _hidl_cb)  {
     // Get rid of this!
     //healthd_board_init(&healthd_config);
     mGetEnergyCounter = healthd_config.energyCounter;
-    convertToHealthConfig(&healthd_config, configOut);
+    //Health::energyCounter(energyCounter_cb _hidl_cb)
+    //convertToHealthConfig(&healthd_config, configOut);
 
     _hidl_cb(configOut);
 

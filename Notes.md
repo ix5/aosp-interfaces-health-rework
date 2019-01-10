@@ -13,3 +13,6 @@ Implement:
   header
   `struct healthd_config *mHealthdConfig;`
 - Nothing
+
+# HIDL workings
+update_cb, energyCounter_cb are auto-fileed in by the HIDL stuff

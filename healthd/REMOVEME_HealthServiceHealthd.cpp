@@ -34,6 +34,7 @@ using android::hardware::health::V1_0::hal_conversion::convertToHealthConfig;
 using android::hardware::health::V1_0::hal_conversion::convertFromHealthInfo;
 using android::hardware::health::V1_0::hal_conversion::convertToHealthInfo;
 
+// Clever...
 using IHealthLegacy = android::hardware::health::V1_0::IHealth;
 
 static android::sp<IHealthLegacy> gHealth_1_0;
@@ -44,10 +45,15 @@ static int healthd_board_get_energy_counter(int64_t* energy) {
     }
 
     Result result = Result::NOT_SUPPORTED;
-    gHealth_1_0->energyCounter([energy, &result](Result ret, int64_t energyOut) {
+    // This is just stupid
+    // healthd tries to get the energy counter from 1.0:Health.c
+    gHealth_1_0->energyCounter(
+            [energy, &result](Result ret, int64_t energyOut)
+        {
         result = ret;
         *energy = energyOut;
-    });
+        }
+    );
 
     return result == Result::SUCCESS ? OK : NAME_NOT_FOUND;
 }

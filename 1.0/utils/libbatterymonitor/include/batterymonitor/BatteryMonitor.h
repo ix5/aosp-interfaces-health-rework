@@ -25,6 +25,8 @@
 
 namespace android {
 
+using IHealthLegacy = android::hardware::health::V1_0::IHealth;
+
 class BatteryMonitor {
   public:
 
@@ -37,7 +39,10 @@ class BatteryMonitor {
     };
 
     BatteryMonitor();
-    void init(struct healthd_config *hc);
+    //void init(struct healthd_config *hc);
+    using ::android::hardware::health::V1_0::HealthConfig;
+    void init(struct HealthConfig *hc);
+
     bool update(void);
     int getChargeStatus();
     status_t getProperty(int id, struct BatteryProperty *val);

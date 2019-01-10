@@ -63,6 +63,7 @@ enum BatteryHealth : int32_t {
     COLD = 7,
 };
 
+/** TODO: Use healthconfig instead of healthd_config... */
 struct HealthConfig {
 
     /**
